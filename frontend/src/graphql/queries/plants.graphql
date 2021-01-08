@@ -1,0 +1,13 @@
+query Plants {
+	plants {
+		id
+		title
+		createdAt
+		updatedAt
+		readings {
+			id
+			value
+			createdAt
+		}
+	}
+}

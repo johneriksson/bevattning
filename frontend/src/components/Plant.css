@@ -1,0 +1,37 @@
+.plant {
+    display: flex;
+    height: 70px;
+    background-color: var(--bg-color-2);
+	margin-bottom: 10px;
+	border-radius: 6px;
+}
+
+.plant .logo {
+    background-color: var(--bg-color-2);
+}
+
+.plant .info {
+    flex: 1;
+    padding: 5px 10px;
+
+	display: flex;
+    align-items: center;
+    justify-content: space-between;
+}
+
+.plant .info h1 {
+    font-size: 1rem;
+}
+
+.plant .controls {
+    flex-basis: 150px;
+    background-color: var(--bg-color-2);
+
+    display: flex;
+    align-items: center;
+    justify-content: space-evenly;
+}
+
+.plant .controls button {
+	width: 65px;
+}

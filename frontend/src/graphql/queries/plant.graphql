@@ -1,0 +1,13 @@
+query Plant($id: Int!) {
+	plant(id: $id) {
+        id
+        title
+        createdAt
+        updatedAt
+        readings {
+            id
+            value
+            createdAt
+        }
+    }
+}

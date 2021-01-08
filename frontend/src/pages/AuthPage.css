@@ -1,0 +1,28 @@
+/* .auth-page {
+	max-height: 80%;
+	height: 100%;
+
+	display: flex;
+	flex-direction: column;
+	justify-content: center;
+	align-items: center;
+}
+
+.auth-page form {
+	display: flex;
+	flex-direction: column;
+}
+
+.auth-page .input {
+	margin: 10px 0;
+}
+
+.auth-page button {
+	margin-top: 10px;
+	font-size: 1rem;
+}
+
+.auth-page a {
+	align-self: flex-start;
+	margin-top: 10px;
+} */

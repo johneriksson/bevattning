@@ -80,7 +80,8 @@ export class PlantResolver extends PlantBaseResolver {
 		}
 
 		try {
-			await waterPlantOnce(0);
+			// TODO: Add something like sensorIndex to plants table
+			await waterPlantOnce(id - 1);
 		} catch(e) {
 			console.log("e", e);
 			return null;

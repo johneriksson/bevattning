@@ -1,9 +1,9 @@
 {
-  "name": "bevattning-frontend",
+  "name": "hemkit-frontend",
   "author": "John Eriksson",
   "description": "hej",
   "build": {
-    "appId": "bevattning-frontend"
+    "appId": "hemkit-frontend"
   },
   "homepage": "./",
   "version": "0.1.0",

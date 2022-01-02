@@ -30,7 +30,7 @@ function App() {
 			<div className="App">
 				<header className="App-header">
 					<div>
-						<h1>Bevattning</h1>
+						<h1>HemKit 🍐</h1>
 					</div>
 					<div>
 						<Link to="/">Plants</Link>

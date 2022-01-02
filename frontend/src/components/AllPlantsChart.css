@@ -1,0 +1,15 @@
+.all-plants-chart {
+    /* padding-left: 20px; */
+    padding: 20px;
+    height: 400px;
+    width: 100%;
+    overflow: hidden;
+}
+
+.all-plants-chart .chart-wrapper {
+    /* padding: 20px; */
+    height: 100%;
+    max-height: calc(100% - 40px);
+    width: 100%;
+    /* max-width: calc(100% - 40px); */
+}

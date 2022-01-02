@@ -28,7 +28,9 @@ function betterUpdateQuery<Result, Query>(
 export const createUrqlClient: () => Client = () => {
 	return createClient({
 		// url: "http://192.168.10.128:4000/graphql",
-		url: "http://localhost:4000/graphql",
+		//url: "http://localhost:4000/graphql",
+		// url: "http://192.168.10.137:4000/graphql",
+		url: "http://plants.johneriksson.me:4000/graphql",
 		fetchOptions: {
 			credentials: "include",
 		},

@@ -84,5 +84,5 @@ a {
 }
 
 a:hover {
-	border-bottom: 2px solid var(--fg-color-1);
+	border-bottom: 2px ridge var(--fg-color-2);
 }

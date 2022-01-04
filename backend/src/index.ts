@@ -14,6 +14,8 @@ import { PlantResolver } from "./resolvers/plant";
 import { UserResolver } from "./resolvers/user";
 import { MyContext } from "./types";
 import { readValuesFromArduinoAndUpdateDB } from "./utils/tasks";
+// import { MiscResolver } from "./resolvers/misc";
+import { LedResolver } from "./resolvers/led";
 
 const main = async () => {
 	await createConnection(ormConfig);
@@ -45,7 +47,7 @@ const main = async () => {
 
 	const apolloServer = new ApolloServer({
 		schema: await buildSchema({
-			resolvers: [PlantResolver, UserResolver],
+			resolvers: [PlantResolver, UserResolver, LedResolver/*, MiscResolver*/],
 			validate: false,
 		}),
 		context: ({ req, res }): MyContext => ({ req, res, redis }),

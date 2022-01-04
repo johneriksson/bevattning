@@ -1,0 +1,48 @@
+.switch {
+    background-color: var(--bg-color-3);
+	color: var(--fg-color-1);
+    border: none;
+    padding: 5px;
+    border-radius: 2px;
+
+	cursor: pointer;
+    
+    display: inline-flex;
+    align-items: center;
+}
+
+.switch.disabled {
+    pointer-events: none;
+}
+
+.switch + .switch {
+    margin-left: 5px;
+}
+
+.switch .states {
+    display: flex;
+    align-items: center;
+
+    margin-left: 10px;
+}
+
+.switch .states > div {
+    padding: 0 5px;
+}
+
+.switch .states .on {
+    background-color: #42ab42;
+    color: white;
+}
+
+.switch .states .off {
+    background-color: #c50b0b;
+    color: white;
+}
+
+
+.switch.off .states .on,
+.switch.on .states .off,
+.switch.inactive .states > div {
+    opacity: .5;
+}

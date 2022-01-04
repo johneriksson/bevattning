@@ -7,3 +7,7 @@
 
 	cursor: pointer;
 }
+
+.button + .button {
+    margin-left: 5px;
+}

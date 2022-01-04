@@ -1,0 +1,6 @@
+query LED {
+	led {
+		id,
+		on
+	}
+}

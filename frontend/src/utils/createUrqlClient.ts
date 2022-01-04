@@ -1,7 +1,7 @@
 import { Cache, cacheExchange, QueryInput } from "@urql/exchange-graphcache";
 import { Client, createClient, dedupExchange, Exchange, fetchExchange } from "urql";
 import { pipe, tap } from "wonka";
-import { ChangePasswordMutation, LoginMutation, LogoutMutation, MeDocument, MeQuery, RegisterMutation } from "../generated/graphql";
+import { ChangePasswordMutation, LedDocument, LedQuery, LoginMutation, LogoutMutation, MeDocument, MeQuery, RegisterMutation, SetLedMutation } from "../generated/graphql";
 import history from "./history";
 
 const errorExchange: Exchange = ({ forward }) => (ops$) => {
@@ -90,6 +90,22 @@ export const createUrqlClient: () => Client = () => {
 									} else {
 										return {
 											me: r.changePassword.user,
+										}
+									}
+								}
+							);
+						},
+						setLED: (result, _args, cache, _info) => {
+							betterUpdateQuery<SetLedMutation, LedQuery>(
+								cache,
+								{ query: LedDocument },
+								result,
+								(r, q) => {
+									return {
+										led: {
+											...q.led,
+											id: r.set.id,
+											on: !!r.set.on,
 										}
 									}
 								}

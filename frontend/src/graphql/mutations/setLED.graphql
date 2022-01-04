@@ -1,0 +1,6 @@
+mutation SetLED($on: Boolean!) {
+	set(on: $on) {
+		id,
+		on
+	}
+}

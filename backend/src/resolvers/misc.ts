@@ -1,21 +1,34 @@
-import { MyContext } from "../types";
-import { Resolver, Arg, Int, Mutation, Field, InputType, Ctx, UseMiddleware, Query, ObjectType } from "type-graphql";
-import { isAuth } from "../middleware/isAuth";
-import { toggleLED } from "src/utils/toggleLED";
+// import { MyContext } from "../types";
+// import { Resolver, Arg, Int, Mutation, Field, InputType, Ctx, UseMiddleware, Query, ObjectType } from "type-graphql";
+// import { isAuth } from "../middleware/isAuth";
+// import { setLED } from "../utils/setLED";
+// import { readLEDStatus } from "../utils/readLEDstatus";
 
-@Resolver()
-export class MiscResolver {
+// @ObjectType()
+// class LEDResponse {
+// 	@Field(() => Boolean)
+// 	on: Boolean;
 
-	@Mutation()
-	@UseMiddleware(isAuth)
-	async toggleLED(): Promise<null> {
-		try {
-			await toggleLED();
-		} catch(e) {
-			console.log("e", e);
-			return null;
-		}
+// 	@Field(() => Number)
+// 	id: number;
+// }
 
-        return null;
-	}
-}
+// @Resolver()
+// export class MiscResolver {
+
+// 	@Mutation(() => LEDResponse)
+// 	// @UseMiddleware(isAuth)
+// 	async setLED(
+// 		@Arg("on") on: Boolean,
+// 	): Promise<LEDResponse> {
+// 		await setLED(on);
+// 		return { id: 0, on };
+// 	}
+
+// 	@Query(() => LEDResponse)
+// 	async getLED(): Promise<LEDResponse> {
+// 		const on = await readLEDStatus();
+// 		console.log("on", on);
+// 		return { id: 0, on };
+// 	}
+// }

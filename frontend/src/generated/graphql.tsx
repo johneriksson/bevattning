@@ -14,43 +14,16 @@ export type Scalars = {
   Float: number;
 };
 
-export type Query = {
-  __typename?: 'Query';
-  plant: Plant;
-  plants: Array<Plant>;
-  me?: Maybe<User>;
+export type FieldError = {
+  __typename?: 'FieldError';
+  field: Scalars['String'];
+  message: Scalars['String'];
 };
 
-
-export type QueryPlantArgs = {
-  id: Scalars['Int'];
-};
-
-export type Plant = {
-  __typename?: 'Plant';
+export type LedResponse = {
+  __typename?: 'LEDResponse';
+  on: Scalars['Boolean'];
   id: Scalars['Float'];
-  title: Scalars['String'];
-  readings?: Maybe<Array<Reading>>;
-  creatorId: Scalars['Float'];
-  createdAt: Scalars['String'];
-  updatedAt: Scalars['String'];
-};
-
-export type Reading = {
-  __typename?: 'Reading';
-  id: Scalars['Float'];
-  plantId: Scalars['Float'];
-  value?: Maybe<Scalars['Float']>;
-  createdAt: Scalars['String'];
-  updatedAt: Scalars['String'];
-};
-
-export type User = {
-  __typename?: 'User';
-  id: Scalars['Float'];
-  username: Scalars['String'];
-  createdAt: Scalars['String'];
-  updatedAt: Scalars['String'];
 };
 
 export type Mutation = {
@@ -64,6 +37,7 @@ export type Mutation = {
   register: UserResponse;
   login: UserResponse;
   logout: Scalars['Boolean'];
+  set: LedResponse;
 };
 
 
@@ -108,20 +82,59 @@ export type MutationLoginArgs = {
   options: UsernamePasswordInput;
 };
 
+
+export type MutationSetArgs = {
+  on: Scalars['Boolean'];
+};
+
+export type Plant = {
+  __typename?: 'Plant';
+  id: Scalars['Float'];
+  title: Scalars['String'];
+  readings?: Maybe<Array<Reading>>;
+  creatorId: Scalars['Float'];
+  createdAt: Scalars['String'];
+  updatedAt: Scalars['String'];
+};
+
 export type PlantInput = {
   title: Scalars['String'];
+};
+
+export type Query = {
+  __typename?: 'Query';
+  plant: Plant;
+  plants: Array<Plant>;
+  me?: Maybe<User>;
+  led: LedResponse;
+};
+
+
+export type QueryPlantArgs = {
+  id: Scalars['Int'];
+};
+
+export type Reading = {
+  __typename?: 'Reading';
+  id: Scalars['Float'];
+  plantId: Scalars['Float'];
+  value?: Maybe<Scalars['Float']>;
+  createdAt: Scalars['String'];
+  updatedAt: Scalars['String'];
+};
+
+export type User = {
+  __typename?: 'User';
+  id: Scalars['Float'];
+  username: Scalars['String'];
+  createdAt: Scalars['String'];
+  updatedAt: Scalars['String'];
 };
 
 export type UserResponse = {
   __typename?: 'UserResponse';
   errors?: Maybe<Array<FieldError>>;
   user?: Maybe<User>;
-};
-
-export type FieldError = {
-  __typename?: 'FieldError';
-  field: Scalars['String'];
-  message: Scalars['String'];
 };
 
 export type UsernamePasswordInput = {
@@ -221,6 +234,19 @@ export type RegisterMutation = (
   ) }
 );
 
+export type SetLedMutationVariables = Exact<{
+  on: Scalars['Boolean'];
+}>;
+
+
+export type SetLedMutation = (
+  { __typename?: 'Mutation' }
+  & { set: (
+    { __typename?: 'LEDResponse' }
+    & Pick<LedResponse, 'id' | 'on'>
+  ) }
+);
+
 export type WaterPlantMutationVariables = Exact<{
   id: Scalars['Int'];
 }>;
@@ -232,6 +258,17 @@ export type WaterPlantMutation = (
     { __typename?: 'Plant' }
     & Pick<Plant, 'id' | 'title' | 'createdAt' | 'updatedAt'>
   )> }
+);
+
+export type LedQueryVariables = Exact<{ [key: string]: never; }>;
+
+
+export type LedQuery = (
+  { __typename?: 'Query' }
+  & { led: (
+    { __typename?: 'LEDResponse' }
+    & Pick<LedResponse, 'id' | 'on'>
+  ) }
 );
 
 export type MeQueryVariables = Exact<{ [key: string]: never; }>;
@@ -365,6 +402,18 @@ export const RegisterDocument = gql`
 export function useRegisterMutation() {
   return Urql.useMutation<RegisterMutation, RegisterMutationVariables>(RegisterDocument);
 };
+export const SetLedDocument = gql`
+    mutation SetLED($on: Boolean!) {
+  set(on: $on) {
+    id
+    on
+  }
+}
+    `;
+
+export function useSetLedMutation() {
+  return Urql.useMutation<SetLedMutation, SetLedMutationVariables>(SetLedDocument);
+};
 export const WaterPlantDocument = gql`
     mutation WaterPlant($id: Int!) {
   waterPlant(id: $id) {
@@ -378,6 +427,18 @@ export const WaterPlantDocument = gql`
 
 export function useWaterPlantMutation() {
   return Urql.useMutation<WaterPlantMutation, WaterPlantMutationVariables>(WaterPlantDocument);
+};
+export const LedDocument = gql`
+    query LED {
+  led {
+    id
+    on
+  }
+}
+    `;
+
+export function useLedQuery(options: Omit<Urql.UseQueryArgs<LedQueryVariables>, 'query'> = {}) {
+  return Urql.useQuery<LedQuery>({ query: LedDocument, ...options });
 };
 export const MeDocument = gql`
     query Me {

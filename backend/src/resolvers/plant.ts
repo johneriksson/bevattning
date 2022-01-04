@@ -18,10 +18,18 @@ export class PlantResolver extends PlantBaseResolver {
 
 	@Query(() => [Plant])
 	async plants(): Promise<Plant[]> {
+
 		// TODO: Use query builder to only take the latest reading for each plant. No need to return all readings in this query
-		return Plant.find({
+		const plants = await Plant.find({
 			relations: ["readings"]
 		});
+		// HACK
+		plants.forEach(p => {
+			const latest10readings = p.readings.reverse().slice(0, 10);
+			p.readings = latest10readings;
+		});
+
+		return plants;
 	}
 
 	@Query(() => Plant)

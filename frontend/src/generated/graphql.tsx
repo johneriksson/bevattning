@@ -31,6 +31,7 @@ export type Mutation = {
   deletePlant: Scalars['Boolean'];
   createPlant: Plant;
   updatePlant?: Maybe<Plant>;
+  setPlantAutoStatus?: Maybe<Plant>;
   waterPlant?: Maybe<Plant>;
   forgotPassword: Scalars['Boolean'];
   changePassword: UserResponse;
@@ -53,6 +54,12 @@ export type MutationCreatePlantArgs = {
 
 export type MutationUpdatePlantArgs = {
   title: Scalars['String'];
+  id: Scalars['Int'];
+};
+
+
+export type MutationSetPlantAutoStatusArgs = {
+  auto: Scalars['Boolean'];
   id: Scalars['Int'];
 };
 
@@ -92,6 +99,7 @@ export type Plant = {
   id: Scalars['Float'];
   title: Scalars['String'];
   readings?: Maybe<Array<Reading>>;
+  waterAutomatically: Scalars['Boolean'];
   creatorId: Scalars['Float'];
   createdAt: Scalars['String'];
   updatedAt: Scalars['String'];
@@ -186,7 +194,7 @@ export type CreatePlantMutation = (
   { __typename?: 'Mutation' }
   & { createPlant: (
     { __typename?: 'Plant' }
-    & Pick<Plant, 'id' | 'title' | 'createdAt' | 'updatedAt'>
+    & Pick<Plant, 'id' | 'title' | 'createdAt' | 'updatedAt' | 'waterAutomatically'>
   ) }
 );
 
@@ -247,6 +255,20 @@ export type SetLedMutation = (
   ) }
 );
 
+export type SetPlantAutoStatusMutationVariables = Exact<{
+  id: Scalars['Int'];
+  auto: Scalars['Boolean'];
+}>;
+
+
+export type SetPlantAutoStatusMutation = (
+  { __typename?: 'Mutation' }
+  & { setPlantAutoStatus?: Maybe<(
+    { __typename?: 'Plant' }
+    & Pick<Plant, 'id' | 'title' | 'createdAt' | 'updatedAt' | 'waterAutomatically'>
+  )> }
+);
+
 export type WaterPlantMutationVariables = Exact<{
   id: Scalars['Int'];
 }>;
@@ -256,7 +278,7 @@ export type WaterPlantMutation = (
   { __typename?: 'Mutation' }
   & { waterPlant?: Maybe<(
     { __typename?: 'Plant' }
-    & Pick<Plant, 'id' | 'title' | 'createdAt' | 'updatedAt'>
+    & Pick<Plant, 'id' | 'title' | 'createdAt' | 'updatedAt' | 'waterAutomatically'>
   )> }
 );
 
@@ -291,7 +313,7 @@ export type PlantQuery = (
   { __typename?: 'Query' }
   & { plant: (
     { __typename?: 'Plant' }
-    & Pick<Plant, 'id' | 'title' | 'createdAt' | 'updatedAt'>
+    & Pick<Plant, 'id' | 'title' | 'createdAt' | 'updatedAt' | 'waterAutomatically'>
     & { readings?: Maybe<Array<(
       { __typename?: 'Reading' }
       & Pick<Reading, 'id' | 'value' | 'createdAt'>
@@ -306,7 +328,7 @@ export type PlantsQuery = (
   { __typename?: 'Query' }
   & { plants: Array<(
     { __typename?: 'Plant' }
-    & Pick<Plant, 'id' | 'title' | 'createdAt' | 'updatedAt'>
+    & Pick<Plant, 'id' | 'title' | 'createdAt' | 'updatedAt' | 'waterAutomatically'>
     & { readings?: Maybe<Array<(
       { __typename?: 'Reading' }
       & Pick<Reading, 'id' | 'value' | 'createdAt'>
@@ -355,6 +377,7 @@ export const CreatePlantDocument = gql`
     title
     createdAt
     updatedAt
+    waterAutomatically
   }
 }
     `;
@@ -414,6 +437,21 @@ export const SetLedDocument = gql`
 export function useSetLedMutation() {
   return Urql.useMutation<SetLedMutation, SetLedMutationVariables>(SetLedDocument);
 };
+export const SetPlantAutoStatusDocument = gql`
+    mutation SetPlantAutoStatus($id: Int!, $auto: Boolean!) {
+  setPlantAutoStatus(id: $id, auto: $auto) {
+    id
+    title
+    createdAt
+    updatedAt
+    waterAutomatically
+  }
+}
+    `;
+
+export function useSetPlantAutoStatusMutation() {
+  return Urql.useMutation<SetPlantAutoStatusMutation, SetPlantAutoStatusMutationVariables>(SetPlantAutoStatusDocument);
+};
 export const WaterPlantDocument = gql`
     mutation WaterPlant($id: Int!) {
   waterPlant(id: $id) {
@@ -421,6 +459,7 @@ export const WaterPlantDocument = gql`
     title
     createdAt
     updatedAt
+    waterAutomatically
   }
 }
     `;
@@ -458,6 +497,7 @@ export const PlantDocument = gql`
     title
     createdAt
     updatedAt
+    waterAutomatically
     readings {
       id
       value
@@ -477,6 +517,7 @@ export const PlantsDocument = gql`
     title
     createdAt
     updatedAt
+    waterAutomatically
     readings {
       id
       value

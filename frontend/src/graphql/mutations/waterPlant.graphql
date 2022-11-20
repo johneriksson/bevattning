@@ -4,5 +4,6 @@ mutation WaterPlant($id: Int!) {
 		title
 		createdAt
 		updatedAt
+		waterAutomatically
 	}
 }

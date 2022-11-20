@@ -1,0 +1,9 @@
+mutation SetPlantAutoStatus($id: Int!, $auto: Boolean!) {
+	setPlantAutoStatus(id: $id, auto: $auto) {
+		id
+		title
+		createdAt
+		updatedAt
+        waterAutomatically
+	}
+}

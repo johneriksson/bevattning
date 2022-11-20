@@ -12,7 +12,7 @@ GPIO.setmode(GPIO.BOARD)
 GPIO.setup(pin, GPIO.OUT)
 
 GPIO.output(pin, GPIO.LOW)
-time.sleep(2)
+time.sleep(1)
 GPIO.output(pin, GPIO.HIGH)
 
 GPIO.cleanup()

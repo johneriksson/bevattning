@@ -7,6 +7,8 @@ interface Props {
     onClick?: (event: React.MouseEvent<HTMLElement, MouseEvent>) => void,
     disabled?: boolean,
     active?: boolean,
+    style?: React.CSSProperties,
+    className?: string,
 }
 
 const Switch: React.FC<Props> = ({
@@ -14,6 +16,8 @@ const Switch: React.FC<Props> = ({
     onClick,
     disabled,
     active,
+    style,
+    className = "",
 }) => {
 
     let stateClass = "inactive";
@@ -21,7 +25,7 @@ const Switch: React.FC<Props> = ({
     if (active === false) stateClass = "off";
 
     return (
-        <div className={`switch ${disabled ? "disabled" : ""} ${stateClass}`} onClick={onClick}>
+        <div className={`switch ${disabled ? "disabled" : ""} ${stateClass} ${className}`} onClick={onClick} style={style}>
             <span className="title">{title}</span>
             <div className="states">
                 <div className="off">OFF</div>

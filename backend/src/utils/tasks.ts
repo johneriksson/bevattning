@@ -8,16 +8,16 @@ export function readValuesFromArduinoAndUpdateDB() {
 	setInterval(async () => {
 		const cmd = spawn("/usr/bin/python", ["./python-scripts/read_from_arduino.py"]);
 
-		cmd.stderr.on("data", (/*error: ErrorEvent*/) => {
-			// do what?
+		cmd.stderr.on("data", (error: ErrorEvent) => {
+			console.error(error);
 		});
 
 		cmd.stdout.on("data", async (data: Object) => {
 			console.log("Received data from python script:", data);
 			await insertReadingInDB(data.toString());
-			// await automaticallyWaterDryPlants();
+			await automaticallyWaterDryPlants();
 		});
-	}, 15 * 1000);
+	}, 30 * 1000);
 }
 
 async function insertReadingInDB(data: string) {
@@ -45,15 +45,24 @@ async function automaticallyWaterDryPlants() {
 	// console.log("plants", plants);
 
 	plants.forEach(async (plant, i) => {
-		const latestReadings = plant.readings.slice(0, 5);
+		if (!plant.waterAutomatically) {
+			console.log("Automatic watering is off for index", i);
+			return;
+		}
+
+		// OBS dom är felkopplade, 2 är inte 2......
+		const latestReadings = plant.readings
+			.sort((pA, pB) => pB.createdAt.valueOf() - pA.createdAt.valueOf())
+			.slice(0, 20);
+
 		const valueSum = latestReadings.reduce((sum, current) => sum + current.value, 0);
 		const valueAverage = valueSum / latestReadings.length;
 		if (valueAverage < 20) { // TODO: Unique threshold for each plant
-			console.log("watering index", i);
+			console.log("Watering index", i);
 			await waterPlantOnce(i); // TODO: Add something like sensorIndex to plants table
-			console.log("finished");
+			console.log("Finished");
 		} else {
-			console.log("no need to water index", i);
+			console.log("No need to water index", i);
 		}
 	});
 }

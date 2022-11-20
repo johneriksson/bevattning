@@ -1,8 +1,9 @@
 import React from "react";
 // import AllPlantsChart from "../components/AllPlantsChart";
 import Plant from "../components/Plant";
-import Switch from "../components/Switch";
-import { useLedQuery, usePlantsQuery, useSetLedMutation } from "../generated/graphql";
+import { usePlantsQuery } from "../generated/graphql";
+
+import "./Plants.css";
 
 function Plants() {
 	const [{ data: plantsData }] = usePlantsQuery({
@@ -26,25 +27,13 @@ function Plants() {
 	// );
 
 
-	const [{ data: ledStatus }] = useLedQuery();
-	const [, setLED] = useSetLedMutation();
-
-	const ledOn = ledStatus?.led?.on;
-	const ledLoaded = !!ledStatus;
+	
 
 	return (
-		<div>
+		<div className="plants-wrapper">
 			{/* <AllPlantsChart
 				plants={plants}
 			/> */}
-			<Switch
-				title="LED"
-				disabled={!ledLoaded}
-				onClick={async () => {
-					await setLED({ on: !ledOn });
-				}}
-				active={ledOn}
-			/>
 			{!plantsData && <div>Loading plants...</div>}
 			{plantsData?.plants.map(p => (
 				<Plant

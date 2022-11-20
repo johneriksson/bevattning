@@ -1,12 +1,12 @@
 import React from "react";
 import {
 	Router,
-	Switch,
+	Switch as RouterSwitch,
 	Route,
 	Link
 } from "react-router-dom";
 
-import { useLogoutMutation } from "./generated/graphql";
+import { useLedQuery, useLogoutMutation, useSetLedMutation } from "./generated/graphql";
 import { useUser } from "./hooks/useUser";
 import ChangePassword from "./pages/ChangePassword";
 
@@ -16,6 +16,8 @@ import ForgotPassword from "./pages/ForgotPassword";
 import Login from "./pages/Login";
 import Register from "./pages/Register";
 import history from "./utils/history";
+import Switch from "./components/Switch";
+import { useLocalStorage } from "./hooks/useLocalStorage";
 
 import "./App.css";
 import "./FormPage.css";
@@ -23,16 +25,40 @@ import "./FormPage.css";
 function App() {
 	const [user, setUser] = useUser();
 	const [, logout] = useLogoutMutation();
+	
+	const [{ data: ledStatus }] = useLedQuery();
+	const [, setLED] = useSetLedMutation();
+	const ledOn = ledStatus?.led?.on;
+	const ledLoaded = !!ledStatus;
+
+	const [darkMode, setDarkMode] = useLocalStorage("dark-mode", false);
 
 	console.log("user", user);
 	return (
 		<Router history={history}>
-			<div className="App">
+			<div className={`App ${darkMode ? "dark" : "light"}`}>
 				<header className="App-header">
-					<div>
+					<div className="card-1">
 						<h1>HemKit 🍐</h1>
 					</div>
-					<div>
+					<div className="card-1">
+						<Switch
+							title="LED"
+							disabled={!ledLoaded}
+							onClick={async () => {
+								await setLED({ on: !ledOn });
+							}}
+							active={ledOn}
+						/>
+						<Switch
+							title="Dark mode"
+							onClick={async () => {
+								await setDarkMode(!darkMode);
+							}}
+							active={darkMode}
+						/>
+					</div>
+					<div className="card-1">
 						<Link to="/">Plants</Link>
 						{user?.username && (
 							<>
@@ -59,7 +85,7 @@ function App() {
 					</div>
 				</header>
 				<div className="App-main">
-					<Switch>
+					<RouterSwitch>
 						<Route path="/" exact={true}>
 							<Plants />
 						</Route>
@@ -80,7 +106,7 @@ function App() {
 						<Route path="/change-password/:token">
 							<ChangePassword />
 						</Route>
-					</Switch>
+					</RouterSwitch>
 				</div>
 			</div>
 		</Router>

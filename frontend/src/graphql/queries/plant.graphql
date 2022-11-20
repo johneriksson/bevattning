@@ -4,6 +4,7 @@ query Plant($id: Int!) {
         title
         createdAt
         updatedAt
+        waterAutomatically
         readings {
             id
             value

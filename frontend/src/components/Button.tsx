@@ -7,6 +7,7 @@ interface Props {
     onClick?: (event: React.MouseEvent<HTMLButtonElement, MouseEvent>) => void,
 	type?: "button" | "submit" | "reset" | undefined,
     disabled?: boolean,
+    color?: string,
 }
 
 const Button: React.FC<Props> = ({
@@ -14,10 +15,11 @@ const Button: React.FC<Props> = ({
     onClick,
 	type = "button",
     disabled,
+    color,
 }) => {
 
     return (
-        <button className="button card-1" onClick={onClick} type={type} disabled={disabled}>
+        <button className={`button color-${color}`} onClick={onClick} type={type} disabled={disabled}>
             <span>{title}</span>
         </button>
     );

@@ -11,3 +11,13 @@
 .button + .button {
     margin-left: 5px;
 }
+
+.button.color-red {
+    background-color: tomato;
+    color: white;
+}
+
+.button.color-green {
+    background-color: green;
+    color: white;
+}

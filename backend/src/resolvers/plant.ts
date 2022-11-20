@@ -21,12 +21,17 @@ export class PlantResolver extends PlantBaseResolver {
 
 		// TODO: Use query builder to only take the latest reading for each plant. No need to return all readings in this query
 		const plants = await Plant.find({
-			relations: ["readings"]
+			relations: ["readings"],
+			order: {
+				id: "ASC"
+			}
 		});
-		// HACK
+		// HACK 
 		plants.forEach(p => {
-			const latest10readings = p.readings.reverse().slice(0, 10);
-			p.readings = latest10readings;
+			const latest20readings = p.readings
+				.sort((pA, pB) => pB.createdAt.valueOf() - pA.createdAt.valueOf())
+				.slice(0, 20);
+			p.readings = latest20readings;
 		});
 
 		return plants;
@@ -73,6 +78,25 @@ export class PlantResolver extends PlantBaseResolver {
 		}
 		if (typeof title !== "undefined") {
 			await Plant.update({ id }, { title });
+		}
+		return plant;
+	}
+
+	@Mutation(() => Plant, { nullable: true })
+	@UseMiddleware(isAuth)
+	async setPlantAutoStatus(
+		@Arg("id", () => Int) id: number,
+		@Arg("auto", () => Boolean) auto: boolean,
+	): Promise<Plant | null | undefined> {
+		const plant = await Plant.findOne(id);
+		if (!plant) {
+			return null;
+		}
+		if (typeof auto !== "undefined") {
+			// await Post.update({id}, {...input}).then(response => response.raw[0]);
+			await Plant.update({ id }, { waterAutomatically: auto });
+			return (await Plant.findOne(id));
+			// return updatedPlant;
 		}
 		return plant;
 	}

@@ -4,5 +4,6 @@ mutation CreatePlant($input: PlantInput!) {
 		title
 		createdAt
 		updatedAt
+		waterAutomatically
 	}
 }

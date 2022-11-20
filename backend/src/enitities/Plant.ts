@@ -19,6 +19,10 @@ export class Plant extends BaseEntity {
 	@OneToMany(() => Reading, reading => reading.plant)
 	readings: Reading[];
 
+	@Field(() => Boolean, { nullable: true })
+	@Column({ nullable: true })
+	waterAutomatically: boolean;
+
 	@Field()
 	@Column()
 	creatorId!: number;

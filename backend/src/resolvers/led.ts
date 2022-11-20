@@ -25,7 +25,6 @@ export class LedResolver {
 	@Query(() => LEDResponse)
 	async led(): Promise<LEDResponse> {
 		const on = await readLEDStatus();
-		console.log("on", on);
 		return { id: 0, on };
 	}
 }
